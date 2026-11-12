@@ -1,0 +1,16 @@
+ranking,mesa_id,departamento,municipio,zona,total_votos_reportado,votantes_habilitados,participacion,diferencia_aritmetica,pct_max_candidato,pct_nulos,frac_multiplos_10,nivel_riesgo,severidad_reglas,puntaje_reglas,score_if,alerta_reglas,alerta_if,es_anomalia,tipo_anomalia
+1,M01854,Delta,Delta-Mun03,rural,147,137,1.072992700729927,0,0.48412698412698413,0.047619047619047616,0.0,alto,critica,5,0.5948022254544345,True,True,1,sobre_participacion
+2,M01079,Bruma,Bruma-Mun06,rural,128,100,1.28,0,0.5619834710743802,0.0390625,0.0,alto,critica,5,0.58257963897258,True,True,1,sobre_participacion
+3,M03716,Granito,Granito-Mun04,rural,115,91,1.2637362637362637,0,0.5405405405405406,0.017391304347826087,0.25,alto,critica,5,0.5782705126784132,True,True,1,sobre_participacion
+4,M01999,Delta,Delta-Mun04,urbana,576,472,1.2203389830508475,0,0.4655493482309125,0.024305555555555556,0.5,alto,critica,5,0.5726383139347588,True,True,1,sobre_participacion
+5,M02971,Fénix,Fénix-Mun03,urbana,751,596,1.2600671140939597,0,0.42411347517730497,0.037283621837549935,0.25,alto,critica,5,0.5597646451369308,True,True,1,sobre_participacion
+6,M03439,Granito,Granito-Mun01,urbana,302,254,1.188976377952756,0,0.6382978723404256,0.029801324503311258,0.25,alto,critica,5,0.5595550091695617,True,True,1,sobre_participacion
+7,M02465,Estela,Estela-Mun04,urbana,558,486,1.1481481481481481,0,0.3803088803088803,0.025089605734767026,0.0,alto,critica,5,0.558832234145709,True,True,1,sobre_participacion
+8,M01251,Cumbre,Cumbre-Mun01,rural,192,148,1.2972972972972974,0,0.4745762711864407,0.046875,0.0,alto,critica,5,0.557484686681409,True,True,1,sobre_participacion
+9,M03191,Fénix,Fénix-Mun06,urbana,478,375,1.2746666666666666,0,0.46271929824561403,0.008368200836820083,0.0,alto,critica,5,0.5573389070403149,True,True,1,sobre_participacion
+10,M02278,Estela,Estela-Mun01,rural,268,221,1.2126696832579185,0,0.41767068273092367,0.041044776119402986,0.0,alto,critica,5,0.5554605527271174,True,True,1,sobre_participacion
+11,M02909,Fénix,Fénix-Mun03,urbana,555,464,1.1961206896551724,0,0.47162426614481406,0.05405405405405406,0.0,alto,critica,5,0.5470439440037551,True,True,1,sobre_participacion
+12,M00731,Bruma,Bruma-Mun03,urbana,400,387,1.0335917312661498,0,0.5,0.0375,0.5,alto,critica,5,0.5429492794866524,True,True,1,sobre_participacion
+13,M01226,Bruma,Bruma-Mun06,rural,213,184,1.1576086956521738,0,0.504950495049505,0.018779342723004695,0.0,alto,critica,5,0.5411893180266385,True,True,1,sobre_participacion
+14,M00833,Bruma,Bruma-Mun03,urbana,475,415,1.144578313253012,0,0.5517241379310345,0.04421052631578947,0.25,alto,critica,5,0.5383482995126657,True,True,1,sobre_participacion
+15,M01131,Bruma,Bruma-Mun06,rural,256,227,1.1277533039647578,0,0.5371900826446281,0.01953125,0.25,alto,critica,5,0.5370252224203085,True,True,1,sobre_participacion

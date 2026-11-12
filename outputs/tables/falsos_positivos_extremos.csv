@@ -1,0 +1,5 @@
+detector,total_extremos,falsos_positivos,tasa_fp_extremos
+Reglas simples,40,3,0.075
+Isolation Forest,40,40,1.0
+Unión (Cualquiera),40,40,1.0
+Intersección (Ambas),40,3,0.075
