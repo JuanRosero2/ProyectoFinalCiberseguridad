@@ -26,6 +26,7 @@ from src.config import (
     HABILITADOS_RURAL_MIN,
     HABILITADOS_URBANO_MAX,
     HABILITADOS_URBANO_MIN,
+    MESAS_POR_PUESTO,
     MIN_MESAS_POR_MUNICIPIO,
     NUM_EXTREMOS_LEGITIMOS,
     NUM_MESAS,
@@ -135,7 +136,7 @@ def generar_dataset(seed: int = SEED) -> pd.DataFrame:
             mesa_id = f"M{mesa_global_idx:05d}"
             mesa_global_idx += 1
 
-            puesto_num = (idx_en_muni // 20) + 1
+            puesto_num = (idx_en_muni // MESAS_POR_PUESTO) + 1
             puesto = f"{muni}-P{puesto_num:02d}"
 
             # Votantes habilitados

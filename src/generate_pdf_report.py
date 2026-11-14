@@ -90,8 +90,8 @@ def compilar_informe_pdf() -> Path:
         ax_p = fig_portada.add_axes([0.12, 0.12, 0.76, 0.76])
         ax_p.axis("off")
 
-        ax_p.text(0.5, 0.88, "UNIVERSIDAD ICESI", fontsize=14, fontweight="bold", ha="center", color="#555555")
-        ax_p.text(0.5, 0.84, "FACULTAD DE INGENIERÍA - PROYECTO FINAL DE CIBERSEGURIDAD", fontsize=11, ha="center", color="#777777")
+        ax_p.text(0.5, 0.88, "[NOMBRE DE LA INSTITUCIÓN]", fontsize=14, fontweight="bold", ha="center", color="#555555")
+        ax_p.text(0.5, 0.84, "PROYECTO FINAL DE CIBERSEGURIDAD", fontsize=11, ha="center", color="#777777")
         ax_p.plot([0.1, 0.9], [0.80, 0.80], color="#1F4E79", linewidth=2.5)
 
         ax_p.text(0.5, 0.68, "Auditoría de Integridad Electoral y Detección\nde Anomalías en un Proceso Electoral Simulado",
@@ -103,7 +103,7 @@ def compilar_informe_pdf() -> Path:
         ax_p.text(0.5, 0.38, "Integrantes del Grupo:\n[NOMBRE INTEGRANTE 1] - [CÓDIGO]\n[NOMBRE INTEGRANTE 2] - [CÓDIGO]\n[NOMBRE INTEGRANTE 3] - [CÓDIGO]",
                   fontsize=11, ha="center", color="#222222")
 
-        ax_p.text(0.5, 0.22, "Fecha de Entrega: Noviembre de 2026\nCali, Colombia", fontsize=10.5, ha="center", color="#555555")
+        ax_p.text(0.5, 0.22, "Fecha de Entrega: Noviembre de 2026\n[CIUDAD]", fontsize=10.5, ha="center", color="#555555")
 
         descargo_box = (
             "Descargo Ético: Todos los datos analizados son 100 % simulados en la ficticia República de Simulandia.\n"
@@ -188,6 +188,41 @@ def compilar_informe_pdf() -> Path:
                 "- Las reglas simples solo marcaron 3 de las 40 mesas rurales legítimas (7.5 % FP).",
                 "- Isolation Forest marcó las 40 mesas legítimas (100 % FP), demostrando analíticamente que los modelos estadísticos no supervisados penalizan el comportamiento atípico pero genuino de comunidades rurales homogéneas.",
             ]
+        )
+
+        # PÁGINA 6: SENSIBILIDAD, TOP MESAS Y ANÁLISIS DE ERRORES
+        sens_lineas = ["## Análisis de Sensibilidad de Contaminación (Isolation Forest)"]
+        sens_path = OUTPUTS_TAB_DIR / "sensibilidad_contaminacion.csv"
+        if sens_path.exists():
+            df_s = pd.read_csv(sens_path)
+            for _, r in df_s.iterrows():
+                sens_lineas.append(
+                    f"- nu = {r['contamination']:.2f}: Alertadas={int(r['mesas_alertadas'])}, "
+                    f"VP={int(r['VP'])}, FP={int(r['FP'])}, Prec={r['precision']*100:.2f} %, "
+                    f"Recall={r['recall']*100:.2f} %, F1={r['f1']:.4f}"
+                )
+
+        top_lineas = ["## Top 5 Mesas Más Sospechosas para Auditoría Prioritaria"]
+        top_path = OUTPUTS_TAB_DIR / "top_mesas_sospechosas.csv"
+        if top_path.exists():
+            df_t = pd.read_csv(top_path).head(5)
+            for _, r in df_t.iterrows():
+                top_lineas.append(
+                    f"- #{int(r['ranking'])} {r['mesa_id']} ({r['municipio']}): "
+                    f"Riesgo={r['nivel_riesgo']}, Puntaje={int(r['puntaje_reglas'])}, "
+                    f"Score IF={r['score_if']:.4f}, Part={r['participacion']*100:.1f} %"
+                )
+
+        err_lineas = [
+            "## Análisis de Errores Representativos (Unión)",
+            "- Falsos Positivos (ej. M00056, M00084): mesas rurales pequeñas (< 150 habilitados) con alta participación legítima (88-90 %) y consenso comunitario (> 83 %), aisladas por IF.",
+            "- Falsos Negativos (ej. M00261, M00284, M00324): casos de relleno de urnas con participación entre 93.4 % y 94.7 %, justo por debajo del umbral R3 (95 %).",
+        ]
+
+        _crear_pagina_texto(
+            pdf,
+            "4.1 Sensibilidad, Top Mesas y Análisis de Errores",
+            sens_lineas + top_lineas + err_lineas,
         )
 
         # PÁGINAS 6 A 10: LAS 5 FIGURAS OFICIALES

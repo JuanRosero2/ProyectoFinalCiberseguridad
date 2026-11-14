@@ -24,6 +24,7 @@ from src.config import (
     DATA_PROCESSED_CSV,
     DPI_FIGURAS,
     FIGSIZE_DEFAULT,
+    HIST_BINS_FIG1,
     OUTPUTS_FIG_DIR,
     OUTPUTS_TAB_DIR,
     UMBRAL_R3_PARTICIPACION,
@@ -48,11 +49,11 @@ def generar_figura_1(df: pd.DataFrame) -> Path:
     _configurar_estilo()
     fig, ax = plt.subplots(figsize=FIGSIZE_DEFAULT)
 
-    # Histograma con bins=60
+    # Histograma con bins=HIST_BINS_FIG1 (60)
     sns.histplot(
         data=df,
         x="participacion",
-        bins=60,
+        bins=HIST_BINS_FIG1,
         color="#5A7D9A",
         edgecolor="white",
         alpha=0.85,

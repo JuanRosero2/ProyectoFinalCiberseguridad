@@ -71,7 +71,7 @@
 > Pasemos al notebook de demostración:
 > Al examinar la Huella Electoral en la Figura 2, vemos que las mesas normales forman una nube densa central, mientras que las actas alteradas son proyectadas hacia la esquina superior derecha.
 > 
-> Miremos la mesa clasificada como la número 1 en riesgo de la auditoría: la mesa M00007 en Aurora. Tiene 300 votantes habilitados pero reportó 345 votos, con una participación imposible del 115 %. El sistema le asigna severidad crítica en reglas y un score extremo de Isolation Forest, recomendando su apertura física inmediata."
+> Miremos la mesa clasificada como la número 1 en riesgo de la auditoría: la mesa M01854 en Delta-Mun03. Tiene 137 votantes habilitados pero reportó 147 votos, con una participación imposible del 107.3 %. El sistema le asigna severidad crítica en reglas (puntaje 5) y un score extremo de Isolation Forest (0.5948), recomendando su apertura física inmediata."
 
 ---
 

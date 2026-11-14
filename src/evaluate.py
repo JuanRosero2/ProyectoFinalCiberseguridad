@@ -20,6 +20,7 @@ from src.config import (
     DATA_RAW_CSV,
     FEATURES_IF,
     IF_CONTAMINATION,
+    NIVELES_CONTAMINACION_SENSIBILIDAD,
     OUTPUTS_TAB_DIR,
     SEED,
 )
@@ -153,9 +154,8 @@ def ejecutar_evaluacion(df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, pd.Da
     df_fp_extremos.to_csv(OUTPUTS_TAB_DIR / "falsos_positivos_extremos.csv", index=False)
 
     # 5. Análisis de sensibilidad a la contaminación en Isolation Forest
-    niveles_contaminacion = [0.02, 0.04, 0.06, 0.08]
     filas_sens = []
-    for c in niveles_contaminacion:
+    for c in NIVELES_CONTAMINACION_SENSIBILIDAD:
         df_sens, _, _ = aplicar_isolation_forest(df_proc, contamination=c, seed=SEED)
         res_c = evaluar_clasificador(y_true, df_sens["alerta_if"].astype(int), f"IF_cont_{c:.2f}")
         res_c["contamination"] = c
@@ -210,6 +210,15 @@ def ejecutar_evaluacion(df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, pd.Da
     print(df_fp_extremos[["detector", "falsos_positivos", "tasa_fp_extremos"]].to_string(index=False))
     print("\nTop 5 municipios con mayor tasa de actas con riesgo alto:")
     print(riesgo_muni.head(5)[["municipio", "departamento", "total_mesas", "mesas_riesgo_alto", "pct_riesgo_alto"]].to_string(index=False))
+
+    # Análisis de errores representativos (3 FP y 3 FN de la Unión)
+    fps_union = df_proc[(df_proc["es_anomalia"] == 0) & (pred_union == 1)].head(3)
+    fns_union = df_proc[(df_proc["es_anomalia"] == 1) & (pred_union == 0)].head(3)
+    cols_err = ["mesa_id", "municipio", "zona", "votantes_habilitados", "participacion", "pct_max_candidato", "score_if", "tipo_anomalia", "nota_simulacion"]
+    print("\nAnálisis de errores — 3 Falsos Positivos representativos (Unión):")
+    print(fps_union[cols_err].to_string(index=False))
+    print("\nAnálisis de errores — 3 Falsos Negativos representativos (Unión):")
+    print(fns_union[cols_err].to_string(index=False))
     print("=================================================================")
 
     return df_proc, {

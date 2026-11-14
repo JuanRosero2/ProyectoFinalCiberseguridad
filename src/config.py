@@ -50,6 +50,7 @@ DEPARTAMENTOS: List[str] = [
 NUM_MUNICIPIOS_POR_DEPTO: int = 6
 NUM_MUNICIPIOS_TOTAL: int = len(DEPARTAMENTOS) * NUM_MUNICIPIOS_POR_DEPTO  # 48
 MIN_MESAS_POR_MUNICIPIO: int = 20  # Garantiza tamaño muestral mínimo por municipio
+MESAS_POR_PUESTO: int = 20  # Agrupación estándar de mesas consecutivas por puesto de votación
 
 # Clasificación geográfica: probabilidad de que un municipio sea catalogado como urbano
 PROB_ZONA_URBANA: float = 0.60
@@ -153,6 +154,7 @@ PUNTAJE_MEDIA: int = 1
 IF_CONTAMINATION: float = 0.04
 IF_N_ESTIMATORS: int = 300
 IF_MAX_SAMPLES: str = "auto"
+NIVELES_CONTAMINACION_SENSIBILIDAD: List[float] = [0.02, 0.04, 0.06, 0.08]
 
 # Lista canónica de features de entrada para Isolation Forest.
 # IMPORTANTE (Regla 2): JAMÁS incluir columnas de ground truth (es_anomalia, tipo_anomalia, nota_simulacion)
@@ -181,4 +183,5 @@ COLOR_AMBAS: str = "#E15759"        # Rojo: detectado por ambas técnicas (conco
 
 DPI_FIGURAS: int = 200
 FIGSIZE_DEFAULT: tuple = (9, 6)
+HIST_BINS_FIG1: int = 60  # Resolución de histograma para distinguir la cola > 95 %
 

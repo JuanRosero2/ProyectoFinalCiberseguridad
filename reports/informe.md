@@ -1,7 +1,7 @@
 # Auditoría de Integridad Electoral y Detección de Anomalías en un Proceso Electoral Simulado
 
 **Curso:** Ciberseguridad y Protección de Datos  
-**Institución:** Universidad Icesi  
+**Institución:** [NOMBRE DE LA INSTITUCIÓN]  
 **Fecha:** Noviembre de 2026  
 **Autores / Integrantes del Grupo:**  
 - [NOMBRE INTEGRANTE 1] - [CÓDIGO ESTUDIANTIL]  
@@ -139,10 +139,10 @@ Se utilizaron las métricas estándar de clasificación binaria formalizadas com
 
 | Nivel de Contaminación ($\nu$) | Mesas Alertadas | VP | FP | Precisión | Recall | F1-Score |
 |---|---|---|---|---|---|---|
-| $\nu = 0.02$ (2 %) | 100 | 79 | 21 | 79.00 % | 39.50 % | 0.5267 |
+| $\nu = 0.02$ (2 %) | 100 | 59 | 41 | 59.00 % | 29.50 % | 0.3933 |
 | $\nu = 0.04$ (4 %) | 200 | 117 | 83 | 58.50 % | 58.50 % | 0.5850 |
-| $\nu = 0.06$ (6 %) | 300 | 148 | 152 | 49.33 % | 74.00 % | 0.5920 |
-| $\nu = 0.08$ (8 %) | 400 | 166 | 234 | 41.50 % | 83.00 % | 0.5533 |
+| $\nu = 0.06$ (6 %) | 300 | 155 | 145 | 51.67 % | 77.50 % | 0.6200 |
+| $\nu = 0.08$ (8 %) | 400 | 175 | 225 | 43.75 % | 87.50 % | 0.5833 |
 
 ---
 
