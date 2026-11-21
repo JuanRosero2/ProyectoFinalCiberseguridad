@@ -13,8 +13,8 @@ def df_casos_control() -> pd.DataFrame:
         # 0: Mesa normal (no activa ninguna regla)
         {
             "mesa_id": "T0",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,
@@ -31,8 +31,8 @@ def df_casos_control() -> pd.DataFrame:
         # 1: R1 sobre_participacion (450 reportados > 400 habilitados)
         {
             "mesa_id": "T1",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,
@@ -49,8 +49,8 @@ def df_casos_control() -> pd.DataFrame:
         # 2: R2 inconsistencia_aritmetica (suma es 245, pero reportan 270)
         {
             "mesa_id": "T2",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,
@@ -67,8 +67,8 @@ def df_casos_control() -> pd.DataFrame:
         # 3: R3 participacion_extrema (385 / 400 = 96.25 %)
         {
             "mesa_id": "T3",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,
@@ -85,8 +85,8 @@ def df_casos_control() -> pd.DataFrame:
         # 4: R4 voto_concentrado (Candidato A con 95 votos de 100 validos = 95 %)
         {
             "mesa_id": "T4",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,
@@ -103,8 +103,8 @@ def df_casos_control() -> pd.DataFrame:
         # 5: R5 nulos_excesivos (50 nulos de 250 votos = 20.0 %)
         {
             "mesa_id": "T5",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,
@@ -121,8 +121,8 @@ def df_casos_control() -> pd.DataFrame:
         # 6: R6 numeros_redondos (40, 30, 20, 10 todos múltiplos de 10)
         {
             "mesa_id": "T6",
-            "departamento": "Aurora",
-            "municipio": "Aurora-Mun01",
+            "departamento": "Antioquia",
+            "municipio": "Medellín",
             "zona": "urbana",
             "puesto": "P01",
             "votantes_habilitados": 400,

@@ -38,22 +38,46 @@ DATA_PROCESSED_CSV: Path = DATA_PROCESSED_DIR / "resultados_mesas.csv"
 DATA_FEATURES_CSV: Path = DATA_PROCESSED_DIR / "features_mesas.csv"
 
 # ==============================================================================
-# 3. PARÁMETROS DEL ESCENARIO ELECTORAL SIMULADO (República de Simulandia)
+# 3. PARÁMETROS DEL ESCENARIO ELECTORAL SIMULADO (Colombia: geografía real, datos 100 % simulados)
 # ==============================================================================
 NUM_MESAS: int = 5000
 
-# División territorial ficticia
-DEPARTAMENTOS: List[str] = [
-    "Aurora", "Bruma", "Cumbre", "Delta",
-    "Estela", "Fénix", "Granito", "Horizonte"
-]
+# División territorial: 8 departamentos reales de Colombia y 6 municipios reales de cada uno
+# (el primero es la capital departamental). Los nombres son reales; TODOS los votos son simulados
+# y no representan resultados de ninguna elección real.
+MUNICIPIOS_POR_DEPARTAMENTO: Dict[str, List[str]] = {
+    "Antioquia": ["Medellín", "Bello", "Envigado", "Itagüí", "Rionegro", "Apartadó"],
+    "Atlántico": ["Barranquilla", "Soledad", "Malambo", "Sabanalarga", "Puerto Colombia", "Baranoa"],
+    "Bolívar": ["Cartagena", "Magangué", "Turbaco", "Arjona", "El Carmen de Bolívar", "Mompox"],
+    "Boyacá": ["Tunja", "Duitama", "Sogamoso", "Chiquinquirá", "Paipa", "Puerto Boyacá"],
+    "Cundinamarca": ["Soacha", "Facatativá", "Zipaquirá", "Girardot", "Fusagasugá", "Chía"],
+    "Nariño": ["Pasto", "Tumaco", "Ipiales", "Túquerres", "La Unión", "Samaniego"],
+    "Santander": ["Bucaramanga", "Floridablanca", "Girón", "Piedecuesta", "Barrancabermeja", "San Gil"],
+    "Valle del Cauca": ["Cali", "Palmira", "Buenaventura", "Tuluá", "Cartago", "Buga"],
+}
+DEPARTAMENTOS: List[str] = list(MUNICIPIOS_POR_DEPARTAMENTO.keys())
+
+# Población aproximada (miles de habitantes, cifras redondeadas) usada SOLO como peso para
+# repartir las 5.000 mesas simuladas: así una capital grande tiene más mesas que un municipio pequeño.
+POBLACION_APROX_MILES: Dict[str, int] = {
+    "Medellín": 2600, "Bello": 560, "Envigado": 240, "Itagüí": 290, "Rionegro": 140, "Apartadó": 120,
+    "Barranquilla": 1300, "Soledad": 680, "Malambo": 130, "Sabanalarga": 100, "Puerto Colombia": 50, "Baranoa": 65,
+    "Cartagena": 1050, "Magangué": 140, "Turbaco": 90, "Arjona": 80, "El Carmen de Bolívar": 75, "Mompox": 45,
+    "Tunja": 180, "Duitama": 120, "Sogamoso": 120, "Chiquinquirá": 65, "Paipa": 32, "Puerto Boyacá": 60,
+    "Soacha": 800, "Facatativá": 160, "Zipaquirá": 150, "Girardot": 110, "Fusagasugá": 150, "Chía": 150,
+    "Pasto": 400, "Tumaco": 260, "Ipiales": 140, "Túquerres": 45, "La Unión": 30, "Samaniego": 50,
+    "Bucaramanga": 620, "Floridablanca": 320, "Girón": 200, "Piedecuesta": 180, "Barrancabermeja": 220, "San Gil": 65,
+    "Cali": 2280, "Palmira": 360, "Buenaventura": 320, "Tuluá": 220, "Cartago": 140, "Buga": 130,
+}
 NUM_MUNICIPIOS_POR_DEPTO: int = 6
 NUM_MUNICIPIOS_TOTAL: int = len(DEPARTAMENTOS) * NUM_MUNICIPIOS_POR_DEPTO  # 48
 MIN_MESAS_POR_MUNICIPIO: int = 20  # Garantiza tamaño muestral mínimo por municipio
 MESAS_POR_PUESTO: int = 20  # Agrupación estándar de mesas consecutivas por puesto de votación
 
-# Clasificación geográfica: probabilidad de que un municipio sea catalogado como urbano
-PROB_ZONA_URBANA: float = 0.60
+# Zona de cada mesa (en Colombia los puestos rurales están en corregimientos e inspecciones):
+# en las capitales casi todas las mesas son urbanas; en los demás municipios hay más mesas rurales.
+FRACCION_RURAL_CAPITAL: float = 0.08
+FRACCION_RURAL_OTROS: float = 0.40
 
 # Rango de votantes habilitados por mesa (censo de mesa)
 # En zonas urbanas las mesas suelen ser más densas; en rurales son más pequeñas y dispersas
@@ -63,8 +87,9 @@ HABILITADOS_RURAL_MIN: int = 80
 HABILITADOS_RURAL_MAX: int = 300   # Intervalo cerrado [80, 300]
 
 # Participación electoral típica (turnout)
-# Media municipal modelada como Normal(0.58, 0.07) acotada a [0.35, 0.80]
-TURNOUT_MU_MEDIA: float = 0.58
+# Media municipal modelada como Normal(0.55, 0.07) acotada a [0.35, 0.80].
+# Referencia: la participación en la primera vuelta presidencial de Colombia en 2022 fue del 54,9 %.
+TURNOUT_MU_MEDIA: float = 0.55
 TURNOUT_MU_STD: float = 0.07
 TURNOUT_MU_MIN: float = 0.35
 TURNOUT_MU_MAX: float = 0.80
@@ -84,13 +109,17 @@ CONCENTRACION_DEPTO: float = 40.0
 CONCENTRACION_MUNI: float = 80.0
 CONCENTRACION_MESA: float = 150.0
 
-# Composición esperada de votos no dirigidos a candidatos
-PROB_BLANCO: float = 0.02
-PROB_NULOS: float = 0.03
-PROB_NO_MARCADOS: float = 0.01
+# Composición esperada de votos no dirigidos a candidatos, calibrada con la primera vuelta
+# presidencial de Colombia en 2022: voto en blanco ≈ 1,7 %, nulos ≈ 1,1 %, no marcados ≈ 0,14 %.
+PROB_BLANCO: float = 0.017
+PROB_NULOS: float = 0.011
+PROB_NO_MARCADOS: float = 0.0015
+PROB_CANDIDATOS: float = 1.0 - (PROB_BLANCO + PROB_NULOS + PROB_NO_MARCADOS)
 
-# Horario de votación y transmisión
-FECHA_HORA_CIERRE: str = "2026-03-08T16:00:00"
+# Jornada electoral colombiana: domingo de 8:00 a. m. a 4:00 p. m.; al cierre los jurados hacen el
+# escrutinio de mesa y diligencian el formulario E-14. La fecha es ficticia (no coincide con
+# ninguna elección real).
+FECHA_HORA_CIERRE: str = "2026-09-13T16:00:00"
 # Parámetros LogNormal para retraso de reporte (minutos después del cierre)
 RETRASO_URBANA_MU_LOG: float = 4.09434456  # ln(60)
 RETRASO_URBANA_SIGMA: float = 0.5
@@ -133,7 +162,8 @@ UMBRAL_R4_PCT_MAX: float = 0.90
 UMBRAL_R4_MIN_VOTOS_VALIDOS: int = 50
 PESO_R4_VOTO_CONCENTRADO: int = 2  # Severidad alta
 
-# R5: Votos nulos excesivos (>= 12 % del total). Cuadruplica la tasa base esperada (~3 %).
+# R5: Votos nulos excesivos (>= 12 % del total). Es más de diez veces la tasa nacional de
+# referencia (≈ 1,1 % en la primera vuelta presidencial de 2022) y deja margen para mesas pequeñas.
 UMBRAL_R5_PCT_NULOS: float = 0.12
 PESO_R5_NULOS_EXCESIVOS: int = 1  # Severidad media
 
@@ -150,7 +180,7 @@ PUNTAJE_MEDIA: int = 1
 # ==============================================================================
 # 6. PARÁMETROS DE LA TÉCNICA 2: ISOLATION FOREST
 # ==============================================================================
-# Contaminación supuesta coherente con la capacidad operativa de auditoría (~4 %)
+# Contaminación supuesta: revisar ≈ 4 % de los E-14, una carga razonable para las comisiones escrutadoras
 IF_CONTAMINATION: float = 0.04
 IF_N_ESTIMATORS: int = 300
 IF_MAX_SAMPLES: str = "auto"
@@ -178,7 +208,7 @@ FEATURES_IF: List[str] = [
 # ==============================================================================
 COLOR_NORMAL: str = "#9E9E9E"       # Gris: sin alertas
 COLOR_SOLO_REGLAS: str = "#F28E2B"  # Naranja: detectado solo por reglas
-COLOR_SOLO_IF: str = "#4E79A7"      # Azul: detectado solo por Isolation Forest
+COLOR_SOLO_IF: str = "#2E6FD0"      # Azul: detectado solo por Isolation Forest (validado: croma y separación para daltonismo)
 COLOR_AMBAS: str = "#E15759"        # Rojo: detectado por ambas técnicas (concordancia crítica)
 
 DPI_FIGURAS: int = 200

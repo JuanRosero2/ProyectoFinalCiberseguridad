@@ -1,49 +1,49 @@
 municipio,departamento,total_mesas,mesas_riesgo_alto,pct_riesgo_alto
-Bruma-Mun05,Bruma,73,12,16.43835616438356
-Estela-Mun01,Estela,26,4,15.384615384615385
-Fénix-Mun01,Fénix,47,4,8.51063829787234
-Aurora-Mun04,Aurora,28,2,7.142857142857142
-Fénix-Mun03,Fénix,141,8,5.673758865248227
-Delta-Mun02,Delta,36,2,5.555555555555555
-Bruma-Mun06,Bruma,162,9,5.555555555555555
-Aurora-Mun02,Aurora,157,8,5.095541401273886
-Cumbre-Mun01,Cumbre,24,1,4.166666666666666
-Fénix-Mun05,Fénix,102,4,3.9215686274509802
-Horizonte-Mun01,Horizonte,78,3,3.8461538461538463
-Delta-Mun04,Delta,132,5,3.787878787878788
-Granito-Mun04,Granito,159,6,3.7735849056603774
-Aurora-Mun06,Aurora,83,3,3.614457831325301
-Aurora-Mun05,Aurora,56,2,3.571428571428571
-Delta-Mun05,Delta,174,6,3.4482758620689653
-Horizonte-Mun06,Horizonte,123,4,3.2520325203252036
-Bruma-Mun01,Bruma,62,2,3.225806451612903
-Cumbre-Mun04,Cumbre,66,2,3.0303030303030303
-Delta-Mun03,Delta,77,2,2.5974025974025974
-Fénix-Mun02,Fénix,156,4,2.564102564102564
-Horizonte-Mun02,Horizonte,156,4,2.564102564102564
-Cumbre-Mun02,Cumbre,39,1,2.564102564102564
-Bruma-Mun03,Bruma,119,3,2.5210084033613445
-Horizonte-Mun05,Horizonte,328,8,2.4390243902439024
-Cumbre-Mun06,Cumbre,124,3,2.4193548387096775
-Granito-Mun06,Granito,42,1,2.380952380952381
-Cumbre-Mun03,Cumbre,86,2,2.3255813953488373
-Cumbre-Mun05,Cumbre,138,3,2.1739130434782608
-Estela-Mun06,Estela,51,1,1.9607843137254901
-Fénix-Mun06,Fénix,110,2,1.8181818181818181
-Aurora-Mun01,Aurora,189,3,1.5873015873015872
-Estela-Mun05,Estela,65,1,1.5384615384615385
-Delta-Mun01,Delta,66,1,1.5151515151515151
-Delta-Mun06,Delta,66,1,1.5151515151515151
-Horizonte-Mun04,Horizonte,133,2,1.5037593984962405
-Granito-Mun01,Granito,271,4,1.4760147601476015
-Bruma-Mun04,Bruma,148,2,1.3513513513513513
-Estela-Mun04,Estela,76,1,1.3157894736842104
-Fénix-Mun04,Fénix,77,1,1.2987012987012987
-Granito-Mun03,Granito,120,1,0.8333333333333334
-Granito-Mun05,Granito,262,2,0.7633587786259541
-Aurora-Mun03,Aurora,134,1,0.7462686567164178
-Estela-Mun03,Estela,135,1,0.7407407407407408
-Bruma-Mun02,Bruma,20,0,0.0
-Estela-Mun02,Estela,28,0,0.0
-Granito-Mun02,Granito,26,0,0.0
-Horizonte-Mun03,Horizonte,29,0,0.0
+Sogamoso,Boyacá,29,9,31.03448275862069
+Zipaquirá,Cundinamarca,56,10,17.857142857142858
+El Carmen de Bolívar,Bolívar,20,3,15.0
+Turbaco,Bolívar,23,2,8.695652173913043
+Girón,Santander,75,4,5.333333333333334
+Tunja,Boyacá,58,3,5.172413793103448
+Paipa,Boyacá,20,1,5.0
+Chiquinquirá,Boyacá,20,1,5.0
+San Gil,Santander,20,1,5.0
+Samaniego,Nariño,20,1,5.0
+Túquerres,Nariño,20,1,5.0
+Puerto Boyacá,Boyacá,21,1,4.761904761904762
+Tumaco,Nariño,93,4,4.301075268817205
+Cartagena,Bolívar,340,14,4.117647058823529
+Malambo,Atlántico,49,2,4.081632653061225
+Arjona,Bolívar,25,1,4.0
+Cali,Valle del Cauca,759,23,3.0303030303030303
+Barranquilla,Atlántico,400,12,3.0
+Rionegro,Antioquia,34,1,2.941176470588235
+Apartadó,Antioquia,35,1,2.857142857142857
+Medellín,Antioquia,759,21,2.766798418972332
+Bucaramanga,Santander,196,5,2.5510204081632653
+Bello,Antioquia,158,4,2.5316455696202533
+Soledad,Atlántico,247,6,2.42914979757085
+Duitama,Boyacá,42,1,2.380952380952381
+Soacha,Cundinamarca,258,6,2.3255813953488373
+Fusagasugá,Cundinamarca,44,1,2.272727272727273
+Pasto,Nariño,138,3,2.1739130434782608
+Buenaventura,Valle del Cauca,95,2,2.1052631578947367
+Piedecuesta,Santander,58,1,1.7241379310344827
+Floridablanca,Santander,102,1,0.9803921568627451
+Palmira,Valle del Cauca,114,1,0.8771929824561403
+Chía,Cundinamarca,40,0,0.0
+Cartago,Valle del Cauca,32,0,0.0
+Buga,Valle del Cauca,36,0,0.0
+Baranoa,Atlántico,23,0,0.0
+Barrancabermeja,Santander,69,0,0.0
+Girardot,Cundinamarca,34,0,0.0
+Ipiales,Nariño,35,0,0.0
+Itagüí,Antioquia,88,0,0.0
+Mompox,Bolívar,20,0,0.0
+La Unión,Nariño,20,0,0.0
+Magangué,Bolívar,36,0,0.0
+Facatativá,Cundinamarca,42,0,0.0
+Envigado,Antioquia,73,0,0.0
+Puerto Colombia,Atlántico,20,0,0.0
+Sabanalarga,Atlántico,28,0,0.0
+Tuluá,Valle del Cauca,76,0,0.0

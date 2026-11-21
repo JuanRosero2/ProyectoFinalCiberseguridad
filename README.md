@@ -1,7 +1,7 @@
 # Detección de Anomalías en un Proceso Electoral Simulado
 
 > **Descargo ético obligatorio:**
-> *Todos los datos de este proyecto son simulados. Los nombres de país, departamentos, municipios y candidatos son ficticios. Los resultados no representan ni hacen afirmaciones sobre ningún proceso electoral real. Una alerta generada por los detectores indica una inconsistencia que merece revisión, no una prueba de fraude.*
+> *Todos los votos de este proyecto son simulados. Los departamentos y municipios son reales de Colombia, pero los resultados, las mesas y los candidatos son ficticios: no representan ninguna elección real ni hacen afirmaciones sobre ella. Una alerta indica una inconsistencia que merece revisión, no una prueba de fraude.*
 
 ---
 
@@ -9,7 +9,7 @@
 
 Este repositorio contiene una solución integral y reproducible para la **auditoría de integridad de datos y detección de anomalías en actas de votación**, enmarcada en la ciberseguridad aplicada a procesos democráticos.
 
-El análisis se centra en **5.000 mesas de votación simuladas** de la ficticia *República de Simulandia*, evaluando inconsistencias mediante dos técnicas analíticas complementarias:
+El análisis se centra en **5.000 mesas de votación simuladas** en 48 municipios reales de 8 departamentos de Colombia (votos simulados), evaluando inconsistencias mediante dos técnicas analíticas complementarias:
 1. **Reglas simples deterministas:** Verificación estricta de límites físicos, cuadre aritmético del acta y umbrales basados en el dominio.
 2. **Isolation Forest (Aprendizaje no supervisado):** Detección multivariada de valores atípicos que eluden reglas fijas (ej. correlaciones anómalas de participación y concentración de voto).
 
@@ -58,6 +58,21 @@ Para visualizar el flujo interactivo paso a paso y la inspección de actas:
 jupyter lab notebooks/demo.ipynb
 # o abrir directamente notebooks/demo.ipynb en VS Code / Cursor
 ```
+
+### Interfaz web (panel de análisis)
+Página local de demostración que presenta todo el análisis de forma visual. No agrega técnicas nuevas:
+reutiliza las funciones de `src/` (mismas reglas, mismo Isolation Forest, mismos resultados).
+```bash
+python -m src.generate_demo_excel   # genera data/demo/*.xlsx (la app también los crea si faltan)
+streamlit run app/app.py            # abre http://localhost:8501
+```
+1. **Paso 1:** elige si tu archivo trae etiquetas. *Con etiquetas* incluye la respuesta correcta de la simulación (`es_anomalia`, `tipo_anomalia`) y habilita la pestaña Evaluación; *Sin etiquetas* es el escenario realista (si el archivo trae etiquetas, se descartan).
+2. **Paso 2:** sube manualmente tu Excel/CSV (si no tienes uno, descarga un ejemplo desde el mismo paso y súbelo). La página muestra la validación del archivo.
+3. **Paso 3:** pulsa **Analizar datos**. Nada se procesa hasta ese momento; la barra lateral muestra si hay un análisis completado, de qué archivo y a qué hora.
+4. Recorre las 8 pestañas: Inicio → Datos cargados → Análisis exploratorio → Reglas simples → Isolation Forest → Patrones sospechosos (incluye la ficha de cada mesa) → Evaluación → Hallazgos.
+5. Desde la barra lateral: descargar resultados en Excel, volver a analizar con otro `contamination` o **cargar otro archivo**.
+
+Las etiquetas (`es_anomalia`, `tipo_anomalia`, `nota_simulacion`) se separan antes de llamar a los detectores y solo se usan en la pestaña Evaluación (verificado en `tests/test_app_logic.py`).
 
 ---
 
@@ -114,11 +129,12 @@ ProyectoFinalCiberseguridad/
 
 ## 5. Resumen de Resultados Principales
 
-- **Total de actas analizadas:** 5.000 mesas.
-- **Anomalías inyectadas (Ground Truth):** 200 actas (4.0 %).
-- **Casos extremos legítimos:** 40 mesas rurales de alta participación sin alteración (para análisis de falsos positivos).
+- **Mesas analizadas:** 5.000 (formularios E-14 simulados) en 48 municipios reales de 8 departamentos de Colombia.
+- **Calibración con Colombia:** participación media simulada 54,5 % (real en la primera vuelta presidencial de 2022: 54,9 %); voto en blanco ≈ 1,7 % y nulos ≈ 1,2 %.
+- **Anomalías inyectadas (respuesta conocida):** 200 mesas (4 %).
+- **Casos extremos legítimos:** 40 mesas rurales con alta participación y sin manipulación (para medir falsas alarmas).
 - **Rendimiento de los detectores:**
-  - **Reglas simples:** Precisión: **97.4 %**, Recall: **94.0 %**, F1: **0.957**. (Especializado en violaciones físicas y aritméticas).
-  - **Isolation Forest:** Precisión: **58.5 %**, Recall: **58.5 %**, F1: **0.585**. (Especializado en anomalías multivariadas como relleno de urnas).
-  - **Unión (Cualquiera):** Recall global: **96.5 %** (detecta 193 de las 200 anomalías).
-  - **Intersección (Ambas):** Precisión: **95.7 %** (máxima certeza para priorización inmediata).
+  - **Reglas simples:** precisión **98,9 %**, recall **94,0 %**, F1 **0,964**.
+  - **Isolation Forest:** precisión **62,5 %**, recall **62,5 %**, F1 **0,625**; marca las 40 mesas legítimas atípicas.
+  - **Unión (cualquiera de las dos):** detecta **199 de las 200** anomalías (recall 99,5 %).
+  - **Intersección (ambas):** precisión **99,1 %**, para la revisión prioritaria.

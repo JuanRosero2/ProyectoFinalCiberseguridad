@@ -1,6 +1,6 @@
 """Generador sintético de mesas electorales con inyección de anomalías y casos extremos.
 
-Genera 5.000 mesas de votación simuladas de la República de Simulandia,
+Genera 5.000 mesas de votación simuladas en 48 municipios reales de Colombia (datos ficticios),
 garantizando reproducibilidad estricta bajo SEED = 42 y el cumplimiento del
 esquema de datos canónico.
 """
@@ -35,7 +35,11 @@ from src.config import (
     PROB_BLANCO,
     PROB_NO_MARCADOS,
     PROB_NULOS,
-    PROB_ZONA_URBANA,
+    FRACCION_RURAL_CAPITAL,
+    FRACCION_RURAL_OTROS,
+    MUNICIPIOS_POR_DEPARTAMENTO,
+    POBLACION_APROX_MILES,
+    PROB_CANDIDATOS,
     RETRASO_MAX_MINUTOS,
     RETRASO_RURAL_MU_LOG,
     RETRASO_RURAL_SIGMA,
@@ -74,21 +78,20 @@ COLUMNAS_ESQUEMA: List[str] = [
 
 
 def _crear_estructura_territorial(rng: np.random.Generator) -> Tuple[List[str], List[str], List[str], np.ndarray]:
-    """Crea la lista de 48 municipios con sus departamentos, asigna zona y mesas."""
+    """Crea la lista de 48 municipios reales con su departamento, su fracción de mesas rurales y sus mesas."""
     deptos: List[str] = []
     municipios: List[str] = []
-    zonas_muni: List[str] = []
+    zonas_muni: List[float] = []  # fracción de mesas rurales del municipio
 
     for dep in DEPARTAMENTOS:
-        for m in range(1, NUM_MUNICIPIOS_POR_DEPTO + 1):
+        for posicion, muni_nombre in enumerate(MUNICIPIOS_POR_DEPARTAMENTO[dep][:NUM_MUNICIPIOS_POR_DEPTO]):
             deptos.append(dep)
-            muni_nombre = f"{dep}-Mun{m:02d}"
             municipios.append(muni_nombre)
-            es_urbano = rng.random() < PROB_ZONA_URBANA
-            zonas_muni.append("urbana" if es_urbano else "rural")
+            zonas_muni.append(FRACCION_RURAL_CAPITAL if posicion == 0 else FRACCION_RURAL_OTROS)
 
     num_m = len(municipios)  # 48
-    pesos = rng.dirichlet(np.ones(num_m) * 2.0)
+    pob = np.array([POBLACION_APROX_MILES[m] for m in municipios], dtype=float)
+    pesos = pob / pob.sum()
     mesas_por_muni = rng.multinomial(NUM_MESAS, pesos)
 
     # Asegurar que ningún municipio quede con menos de MIN_MESAS_POR_MUNICIPIO (20)
@@ -127,7 +130,7 @@ def generar_dataset(seed: int = SEED) -> pd.DataFrame:
 
     for m_idx, muni in enumerate(muni_lista):
         dep = deptos_lista[m_idx]
-        zona = zonas_muni[m_idx]
+        frac_rural = zonas_muni[m_idx]
         cant_mesas = mesas_por_muni[m_idx]
         mu_m = turnout_munis[muni]
         pref_m = pref_munis[muni]
@@ -137,7 +140,8 @@ def generar_dataset(seed: int = SEED) -> pd.DataFrame:
             mesa_global_idx += 1
 
             puesto_num = (idx_en_muni // MESAS_POR_PUESTO) + 1
-            puesto = f"{muni}-P{puesto_num:02d}"
+            puesto = f"{muni} · Puesto {puesto_num:02d}"
+            zona = "rural" if rng.random() < frac_rural else "urbana"
 
             # Votantes habilitados
             if zona == "urbana":
@@ -156,7 +160,7 @@ def generar_dataset(seed: int = SEED) -> pd.DataFrame:
             pref_mesa = rng.dirichlet(pref_m * CONCENTRACION_MESA)
             # Distribución multinomial con 7 categorías
             # [cand_A, cand_B, cand_C, cand_D, blanco, nulos, no_marcados]
-            p_candidatos = pref_mesa * 0.94
+            p_candidatos = pref_mesa * PROB_CANDIDATOS
             probs_mesa = np.array([
                 p_candidatos[0], p_candidatos[1], p_candidatos[2], p_candidatos[3],
                 PROB_BLANCO, PROB_NULOS, PROB_NO_MARCADOS
@@ -225,7 +229,7 @@ def generar_dataset(seed: int = SEED) -> pd.DataFrame:
         for oi, r_val in zip(otros_idx, resto_dir):
             pref_cands[oi] = r_val
 
-        p_cands = pref_cands * 0.94
+        p_cands = pref_cands * PROB_CANDIDATOS
         probs_extremo = np.array([
             p_cands[0], p_cands[1], p_cands[2], p_cands[3],
             PROB_BLANCO, PROB_NULOS, PROB_NO_MARCADOS
